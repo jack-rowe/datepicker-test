@@ -1,4 +1,6 @@
 import DatePickerComponent from "./DatePickerComponent";
+import DatePickerSingle from "./DatePickerSingle";
+import DatePickerSingleForm from "./DatePickerSingleForm";
 // import { DatePickerField } from "./DatePickerField";
 
 function App() {
@@ -8,19 +10,12 @@ function App() {
     <div className="absolute w-screen h-screen bg-[#09235a] flex items-center justify-center">
       <div className="w-fit h-fit bg-white rounded-lg p-8">
         {/* default date picker */}
-        {/* <DatePickerComponent/> */}
+        <DatePickerSingleForm initialDate={new Date()} onSubmit={e => console.log("Submit", e)}/>
+        {/* <DatePickerRange /> */}
+        {/* <DatePickerAndTimeSingle /> */}
+        {/* <DatePickerAndTimeRange /> */}
 
-        {/* date picker with hidden past dates */}
-        {/* <DatePickerComponent hidePastDates={false}/> */}
 
-        {/* date picker with range */}
-        <DatePickerComponent isRange />
-
-        {/* date picker with range and ability to choose past dates, opened to 1921 */}
-        {/* <DatePickerComponent isRange initialDate={new Date("1921-03-14")} hidePastDates={false}/> */}
-        
-        {/* date picker without time functionality */}
-        {/* <DatePickerComponent isJustCalendar /> */}
       </div>
     </div>
   );

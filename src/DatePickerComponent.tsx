@@ -44,6 +44,9 @@ const DatePickerComponent: React.FunctionComponent<
       setEndDate(null);
       setStartTime(null);
       setEndTime(null);
+      setMonthPickerOpen(false);
+      setYearPickerOpen(false);
+      return;
     }
     // if the monthpicker is open, close it 
     if (monthPickerOpen) {
