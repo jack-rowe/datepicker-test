@@ -1,14 +1,16 @@
-import React from "react";
 import { FormikErrors, withFormik } from "formik";
-import InnerDatePickerForm from "./InnerDatePickerForm";
+import InnerDatePickerSingleForm from "./InnerDatePickerSingleForm";
 
+//what is to be collected / submitted
 interface FormValues {
   startDate: Date | null;
 }
 
+//what is passed in from the parent component to the form
 interface OtherProps {
   initialDate: Date;
 }
+
 
 interface FormikProps {
   onSubmit: (values: FormValues) => void;
@@ -20,11 +22,14 @@ const DatePickerSingleForm = withFormik<OtherProps & FormikProps, FormValues>({
         startDate: props.initialDate,
     };
   },
-
+  validateOnChange: false,
   validate: (values) => {
     const errors: FormikErrors<FormValues> = {};
     if (!values.startDate) {
       errors.startDate = "Date required";
+    }
+    if (errors) {
+      console.log(errors);
     }
     return errors;
   },
@@ -32,6 +37,6 @@ const DatePickerSingleForm = withFormik<OtherProps & FormikProps, FormValues>({
   handleSubmit: (values, formikBag) => {
     formikBag.props.onSubmit(values);
   },
-})(InnerDatePickerForm);
+})(InnerDatePickerSingleForm);
 
 export default DatePickerSingleForm;

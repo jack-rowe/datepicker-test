@@ -1,28 +1,24 @@
 import * as React from "react";
 import { useState } from "react";
-import DatePicker from "react-datepicker";
-import { Listbox, Transition } from "@headlessui/react";
 
+import DatePicker from "react-datepicker";
+
+import ArrowSVG from "../ArrowSVG";
 import "react-datepicker/dist/react-datepicker.css";
-import ArrowSVG from "./ArrowSVG";
-import ChevronSVG from "./ChevronSVG";
-import ClockSVG from "./ClockSVG";
-import "./styles.css";
-import { getTimes, formatDate } from "./utils";
-import { useField } from "formik";
+import "./styles/index.css";
+
 
 interface IDatePickerSingleProps {
   initialDate: Date;
   hidePastDates?: boolean;
-  onChange: (e: any) => void;
+  handleChange: (e: any) => void;
 }
 
 const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
   initialDate,
   hidePastDates = false,
-  onChange,
+  handleChange,
 }) => {
-  const [a, b, startDateFieldHelpers] = useField("startDate");
   const [startDate, setStartDate] = useState<Date | null>(initialDate);
   const [yearPickerOpen, setYearPickerOpen] = useState(false);
   const [monthPickerOpen, setMonthPickerOpen] = useState(false);
@@ -30,11 +26,11 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
 
   const handleDateChange = (dates: Date) => {
     // if the date is in the past and hidePastDates is true, set the date to today
-    if (dates.getTime() < today.getTime() && hidePastDates) {
+    if (hidePastDates && dates.getTime() < today.getTime()) {
       setStartDate(today);
       setMonthPickerOpen(false);
       setYearPickerOpen(false);
-      onChange(today);
+      handleChange(today);
       return;
     }
     // if the monthpicker is open, close it
@@ -50,19 +46,19 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
       return
     }
     setStartDate(dates as Date);
-    onChange(dates);
+    handleChange(dates);
   };
   const handleTodayClick = () => {
     setStartDate(today);
     setMonthPickerOpen(false);
     setYearPickerOpen(false);
-    onChange(today);
+    handleChange(today);
   };
   const handleClearClick = () => {
     setStartDate(null);
     setMonthPickerOpen(false);
     setYearPickerOpen(false);
-    onChange(null);
+    handleChange(null);
   };
   const handleLeftArrowClick = (
     decreaseMonth: () => void,
