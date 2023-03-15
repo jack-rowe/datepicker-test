@@ -34,7 +34,6 @@ const DatePickerComponent: React.FunctionComponent<
   const today = new Date();
 
   const onChange = (dates: [Date, Date] | Date) => {
-    //if choses a date in the past, set the date to today
     if (
       dates instanceof Date &&
       dates.getTime() < today.getTime() &&
@@ -43,10 +42,7 @@ const DatePickerComponent: React.FunctionComponent<
       setStartDate(today);
       setEndDate(null);
       setStartTime(null);
-      setYearPickerOpen(false);
-      setMonthPickerOpen(true);
       setEndTime(null);
-      return;
     }
     if (monthPickerOpen) {
       setMonthPickerOpen(false);
