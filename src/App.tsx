@@ -8,7 +8,10 @@ function App() {
     <div className="absolute w-screen h-screen bg-[#09235a] flex items-center justify-center">
       <div className="w-fit h-fit bg-white rounded-lg p-8">
         {/* default date picker */}
-        <DatePickerComponent hidePastDates/>
+        <DatePickerComponent/>
+
+        {/* date picker with hidden past dates */}
+        {/* <DatePickerComponent hidePastDates={false}/> */}
 
         {/* date picker with range */}
         {/* <DatePickerComponent isRange /> */}
