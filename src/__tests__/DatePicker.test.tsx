@@ -47,7 +47,7 @@ describe("Date Picker Component Rendering", () => {
     if (!date_display) {
       throw new Error("date_display is null");
     }
-    expect(date_display.innerHTML).toMatch(/start date - end date/);
+    expect(date_display.innerHTML).toMatch(/Select a Date Range.../);
   });
 
   test("Date picker renders with range and initial date", async () => {
@@ -56,7 +56,7 @@ describe("Date Picker Component Rendering", () => {
     if (!date_display) {
       throw new Error("date_display is null");
     }
-    expect(date_display.innerHTML).toMatch(/start date - end date/);
+    expect(date_display.innerHTML).toMatch(/Select a Date Range.../);
   });
 });
 
@@ -78,7 +78,7 @@ describe("Date Picker Choosing Dates is Correct", () => {
     if (!date_display) {
       throw new Error("date_display is null");
     }
-    expect(date_display.innerHTML).toMatch(/March 13, 2023/);
+    expect(date_display.innerHTML).toMatch(/March 13th, 2023/);
   });
 
   test("Select tomorrow in single date picker", async () => {
@@ -96,7 +96,7 @@ describe("Date Picker Choosing Dates is Correct", () => {
     if (!date_display) {
       throw new Error("date_display is null");
     }
-    expect(date_display.innerHTML).toMatch(/March 15, 2023/);
+    expect(date_display.innerHTML).toMatch(/March 15th, 2023/);
   });
 
   test("Select today in single date picker", async () => {
@@ -114,7 +114,7 @@ describe("Date Picker Choosing Dates is Correct", () => {
     if (!date_display) {
       throw new Error("startDate is null");
     }
-    expect(date_display.innerHTML).toMatch(/March 14, 2023/);
+    expect(date_display.innerHTML).toMatch(/March 14th, 2023/);
   });
 
   test("Select yesterday, then today in single date picker", async () => {
@@ -135,9 +135,9 @@ describe("Date Picker Choosing Dates is Correct", () => {
     if (!date_display) {
       throw new Error("date_display is null");
     }
-    expect(date_display.innerHTML).toMatch(/March 13, 2023/);
+    expect(date_display.innerHTML).toMatch(/March 13th, 2023/);
     fireEvent.click(today);
-    expect(date_display.innerHTML).toMatch(/March 14, 2023/);
+    expect(date_display.innerHTML).toMatch(/March 14th, 2023/);
   });
 
   test("Select today, then yesterday in single date picker", async () => {
@@ -158,9 +158,9 @@ describe("Date Picker Choosing Dates is Correct", () => {
     if (!date_display) {
       throw new Error("date_display is null");
     }
-    expect(date_display.innerHTML).toMatch(/March 14, 2023/);
+    expect(date_display.innerHTML).toMatch(/March 14th, 2023/);
     fireEvent.click(yesterday);
-    expect(date_display.innerHTML).toMatch(/March 13, 2023/);
+    expect(date_display.innerHTML).toMatch(/March 13th, 2023/);
   });
 });
 
