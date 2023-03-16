@@ -34,6 +34,9 @@ const DatePickerSingleForm = withFormik<OtherProps & FormikProps, FormValues>({
     if (!values.endDate) {
       errors.endDate = "Start and end time required";
     }
+    if (values.startDate && values.endDate && values.startDate > values.endDate) {
+      errors.endDate = "End date must come after start date";
+    }
     return errors;
   },
 

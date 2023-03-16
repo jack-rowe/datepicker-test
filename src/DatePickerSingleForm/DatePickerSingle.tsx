@@ -53,6 +53,7 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
     setStartDate(null);
     setMonthPickerOpen(false);
     setYearPickerOpen(false);
+    
   };
   const handleLeftArrowClick = (
     decreaseMonth: () => void,
@@ -87,7 +88,7 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
 
   return (
     <section className="flex">
-      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[425px] min-w-[350px] shadow-md ">
+      <div className="flex flex-col justify-between h-[fit] min-h-[425px] min-w-[350px] shadow-md border-2 rounded-md">
         <DatePicker
           openToDate={initialDate}
           minDate={hidePastDates ? today : undefined}
@@ -133,7 +134,7 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
             </div>
           )}
         />
-        <div className="w-full flex justify-around gap-4 mb-4">
+        <div className="w-full flex justify-around gap-4 mb-3">
           <button
             type="button"
             className="grow bg-[#1A56DB] text-white rounded-md ml-4 py-2"

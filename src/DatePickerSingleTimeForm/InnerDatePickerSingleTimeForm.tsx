@@ -7,6 +7,7 @@ interface IInnerDatePickerSingleTimeFormProps {
   initialDate: Date;
   initialStartTime: string | null;
   initialEndTime: string | null;
+  hidePastDates: boolean;
 }
 
 const InnerDatePickerSingleTimeForm: React.FunctionComponent<
@@ -30,9 +31,10 @@ const InnerDatePickerSingleTimeForm: React.FunctionComponent<
           endDateFieldHelpers.setError("");
         }}
         initialDate={props.initialDate}
+        hidePastDates={props.hidePastDates}
       />
       <div className="w-full flex flex-col justify-center items-center h-24">
-        <button type="submit" className="bg-blue-500 text-white p-2">
+        <button type="submit" className="bg-blue-500 text-white p-2 disabled:bg-slate-400">
           Submit
         </button>
         {startDateFieldMeta.error && (

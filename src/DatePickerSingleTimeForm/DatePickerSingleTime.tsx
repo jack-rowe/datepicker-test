@@ -100,23 +100,26 @@ const DatePickerSingleTime: React.FunctionComponent<
       increaseMonth();
     }
   };
-
+  
   React.useEffect(() => {
     if (!startDate || !startTime || !endTime) {
       return;
     }
     const endDateCalculated: Date = new Date(startDate);
-    endDateCalculated.setHours(endTime.hour)
-    endDateCalculated.setMinutes(endTime.minute)
-    
-    startDate.setHours(startTime.hour)
-    startDate.setMinutes(startTime.minute)
+    endDateCalculated.setHours(endTime.hour, endTime.minute, 0, 0);
+
+    startDate.setHours(startTime.hour, startTime.minute, 0, 0);
+
+
     handleChange(startDate, endDateCalculated);
   }, [startDate, startTime, endTime]);
 
   return (
-    <section className="flex">
-      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[425px] min-w-[350px] shadow-md ">
+    // to go back to separate date/time pickers move " shadow-md border-2 rounded-md" to the div below
+    <section className="flex"> 
+    <div className="flex flex-col justify-between h-[fit] min-h-[425px] min-w-[350px] shadow-md border-2 rounded-md">
+     {/* <section className="flex shadow-md border-2 rounded-md"> 
+       <div className="flex flex-col justify-between  h-[fit] min-h-[425px] min-w-[350px]  "> */}
         <DatePicker
           openToDate={initialDate}
           minDate={hidePastDates ? today : undefined}
@@ -162,7 +165,7 @@ const DatePickerSingleTime: React.FunctionComponent<
             </div>
           )}
         />
-        <div className="w-full flex justify-around gap-4 mb-4">
+        <div className="w-full flex justify-around gap-4 mb-3">
           <button
             type="button"
             className="grow bg-[#1A56DB] text-white rounded-md ml-4 py-2"
@@ -181,7 +184,7 @@ const DatePickerSingleTime: React.FunctionComponent<
         </div>
       </div>
 
-      <div className="flex flex-col justify-start gap-4 pt-4 items-center w-[375px] relative">
+      <div className="flex flex-col justify-start gap-4 pt-4 items-center w-[350px] px-8 relative">
         <div
           className="text-2xl font-semibold mb-4 text-[#707070]"
           data-testid="datepicker-date_display"
