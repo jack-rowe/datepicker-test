@@ -114,7 +114,7 @@ const DatePickerComponent: React.FunctionComponent<
   return (
     // other styles in styles.css file Path: src\styles.css
     <section className="flex">
-      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[400px] min-w-[350px] shadow-md ">
+      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[410px] min-w-[350px] shadow-md ">
         <DatePicker
           openToDate={initialDate}
           minDate={hidePastDates ? today : undefined}
@@ -221,7 +221,7 @@ const DatePickerComponent: React.FunctionComponent<
                     </span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <ChevronSVG
-                        className={`h-5 w-5 text-gray-400 transition-all ${
+                        className={`h-5 w-5 text-gray-400 transition-all ease-in ${
                           open ? "" : "rotate-180"
                         }`}
                         aria-hidden="true"
@@ -304,7 +304,7 @@ const DatePickerComponent: React.FunctionComponent<
                     </span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <ChevronSVG
-                        className={`h-5 w-5 text-gray-400 transition-all ${
+                        className={`h-5 w-5 text-gray-400 transition-all ease-in ${
                           open ? "" : "rotate-180"
                         }`}
                         aria-hidden="true"

@@ -7,11 +7,10 @@ import ArrowSVG from "../ArrowSVG";
 import "react-datepicker/dist/react-datepicker.css";
 import "./styles/index.css";
 
-
 interface IDatePickerSingleProps {
   initialDate: Date;
   hidePastDates?: boolean;
-  handleChange: (e: any) => void;
+  handleChange: (startDate: Date, endDate: Date) => void;
 }
 
 const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
@@ -30,35 +29,31 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
       setStartDate(today);
       setMonthPickerOpen(false);
       setYearPickerOpen(false);
-      handleChange(today);
       return;
     }
     // if the monthpicker is open, close it
     if (monthPickerOpen) {
       setMonthPickerOpen(false);
       setYearPickerOpen(false);
-      return
+      return;
     }
     // if the yearpicker is open, close it and open the monthpicker
     if (yearPickerOpen) {
       setYearPickerOpen(false);
       setMonthPickerOpen(true);
-      return
+      return;
     }
     setStartDate(dates as Date);
-    handleChange(dates);
   };
   const handleTodayClick = () => {
     setStartDate(today);
     setMonthPickerOpen(false);
     setYearPickerOpen(false);
-    handleChange(today);
   };
   const handleClearClick = () => {
     setStartDate(null);
     setMonthPickerOpen(false);
     setYearPickerOpen(false);
-    handleChange(null);
   };
   const handleLeftArrowClick = (
     decreaseMonth: () => void,
@@ -81,9 +76,19 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
     }
   };
 
+  React.useEffect(() => {
+    if (!startDate) return;
+    //set start date time to 00:00:00
+    startDate.setHours(0, 0, 0, 0);
+    const endDate = new Date(startDate);
+    //set end date time to 23:59:59
+    endDate.setHours(23, 59, 59, 999);
+    handleChange(startDate, endDate);
+  }, [startDate]);
+
   return (
     <section className="flex">
-      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[400px] min-w-[350px] shadow-md ">
+      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[410px] min-w-[350px] shadow-md ">
         <DatePicker
           openToDate={initialDate}
           minDate={hidePastDates ? today : undefined}

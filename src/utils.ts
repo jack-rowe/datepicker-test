@@ -1,3 +1,5 @@
+import { Time } from "./types";
+
 function isEqualDay(d1: Date, d2: Date) {
   return (
     d1.getFullYear() === d2.getFullYear() &&
@@ -10,14 +12,18 @@ function isGreaterThanDay(d1: Date, d2: Date) {
   return d1.getTime() > d2.getTime();
 }
 
-function generateTimeList(from: Date, to: Date) {
-  let timeList: string[] = [];
+function generateTimeList(from: Date, to: Date): Time[] {
+  let timeList: Time[] = [];
   while (from.getTime() < to.getTime()) {
     let val = from.toLocaleTimeString("en-US", {
       hour: "numeric",
       minute: "numeric",
     });
-    timeList.push(val);
+    timeList.push({
+      hour: from.getHours(),
+      minute: from.getMinutes(),
+      timeString: val,
+    });
     from.setMinutes(from.getMinutes() + 15);
   }
   return timeList;
@@ -27,9 +33,9 @@ function setTimeToNextQuarterHour(date: Date) {
   date.setMinutes((Math.ceil(date.getMinutes() / 15) * 15) % 60);
 }
 
-function getTimes(selectedDate: Date | null, hideDates: boolean): string[] {
+function getTimes(selectedDate: Date | null, hideDates: boolean): Time[] {
   if (!selectedDate) return [];
-  let times: string[] = [];
+  let times: Time[] = [];
   const now = new Date();
   const nowRounded = new Date();
   const midnight = new Date();
@@ -48,7 +54,7 @@ function getTimes(selectedDate: Date | null, hideDates: boolean): string[] {
     times = generateTimeList(dayStart, midnight);
   } else if (isGreaterThanDay(now, selectedDate)) {
     if (hideDates) {
-      times = [""];
+      times = [];
       return times;
     }
     times = generateTimeList(dayStart, midnight);

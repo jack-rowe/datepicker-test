@@ -1,18 +1,19 @@
 import { useField } from "formik";
 import * as React from "react";
-import DatePickerSingle from "./DatePickerSingle";
+import DatePickerSingleTime from "./DatePickerSingleTime";
 
-interface IInnerDatePickerSingleFormProps {
+interface IInnerDatePickerSingleTimeFormProps {
   handleSubmit: () => void;
   initialDate: Date;
+  initialStartTime: string | null;
+  initialEndTime: string | null;
 }
 
-const InnerDatePickerSingleForm: React.FunctionComponent<
-  IInnerDatePickerSingleFormProps
+const InnerDatePickerSingleTimeForm: React.FunctionComponent<
+  IInnerDatePickerSingleTimeFormProps
 > = (props) => {
-  const [a, startDateMetaHelpers, startDateFieldHelpers] = useField("startDate");
-  const [b, endDateMetaHelpers, endDateFieldHelpers] = useField("endDate");
-
+  const [a, startDateFieldMeta, startDateFieldHelpers] = useField("startDate");
+  const [b, endDateFieldMeta, endDateFieldHelpers] = useField("endDate");
 
   return (
     <form
@@ -21,7 +22,7 @@ const InnerDatePickerSingleForm: React.FunctionComponent<
         props.handleSubmit();
       }}
     >
-      <DatePickerSingle
+      <DatePickerSingleTime
         handleChange={(startDate, endDate) => {
           startDateFieldHelpers.setValue(startDate);
           endDateFieldHelpers.setValue(endDate);
@@ -34,11 +35,15 @@ const InnerDatePickerSingleForm: React.FunctionComponent<
         <button type="submit" className="bg-blue-500 text-white p-2">
           Submit
         </button>
-        {startDateMetaHelpers.error && <div className="text-red-500">{startDateMetaHelpers.error}</div>}
-        {endDateMetaHelpers.error && <div className="text-red-500">{endDateMetaHelpers.error}</div>}
+        {startDateFieldMeta.error && (
+          <div className="text-red-500">{startDateFieldMeta.error}</div>
+        )}
+        {endDateFieldMeta.error && (
+          <div className="text-red-500">{endDateFieldMeta.error}</div>
+        )}
       </div>
     </form>
   );
 };
 
-export default InnerDatePickerSingleForm;
+export default InnerDatePickerSingleTimeForm;
