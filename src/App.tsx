@@ -8,17 +8,18 @@ function App() {
 
         {/* initialDate is what the calendar opens to, onSubmit is a function that handles the returned form values */}
 
-        <DatePickerSingleForm initialDate={new Date()} onSubmit={(e) => console.log(e)}/>
-        {/* returns:
-        {
-          "startDate": "2023-03-16T04:00:00.000Z",
-          "endDate": "2023-03-17T03:59:59.999Z"
-        } */}
+        {/* returns start and end date on same day with times set to 00.00.00 and 23.59.59 */}
+        <DatePickerSingleForm initialDate={new Date("1993-02-07")} onSubmit={(e) => console.log(e)} hidePastDates={false}/>
+        
+        {/* returns start and end date on same day with times set to selected times */}
+        <DatePickerSingleTimeForm initialDate={new Date()} onSubmit={(e) => console.log(e)} hidePastDates/>
 
-        
-        
-        
-        {/* <DatePickerSingleTimeForm initialDate={new Date()} onSubmit={(e) => console.log(e)}  /> */}
+
+        {/* returns select ed start and end dates with times set to 00.00.00 and 23.59.59 */}
+        {/* <DatePickerRangeForm initialDate={new Date()} onSubmit={(e) => console.log(e)}  /> */}
+
+        {/* returns selected start and end dates with times set to selected times */}
+        {/* <DatePickerRangeTimeForm initialDate={new Date()} onSubmit={(e) => console.log(e)}  /> */}
       </div>
     </div>
   );

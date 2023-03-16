@@ -10,6 +10,7 @@ interface FormValues {
 //what is passed in from the parent component to the form
 interface OtherProps {
   initialDate: Date;
+  hidePastDates: boolean;
 }
 
 

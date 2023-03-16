@@ -5,6 +5,7 @@ import DatePickerSingle from "./DatePickerSingle";
 interface IInnerDatePickerSingleFormProps {
   handleSubmit: () => void;
   initialDate: Date;
+  hidePastDates: boolean;
 }
 
 const InnerDatePickerSingleForm: React.FunctionComponent<
@@ -29,6 +30,7 @@ const InnerDatePickerSingleForm: React.FunctionComponent<
           endDateFieldHelpers.setError("");
         }}
         initialDate={props.initialDate}
+        hidePastDates={props.hidePastDates}
       />
       <div className="w-full flex flex-col justify-center items-center h-24">
         <button type="submit" className="bg-blue-500 text-white p-2">

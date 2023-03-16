@@ -5,8 +5,7 @@ import DatePicker from "react-datepicker";
 
 import ArrowSVG from "../ArrowSVG";
 import "react-datepicker/dist/react-datepicker.css";
-import "./styles/index.css";
-
+import "../styles/index.css";
 interface IDatePickerSingleProps {
   initialDate: Date;
   hidePastDates?: boolean;
@@ -88,7 +87,7 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
 
   return (
     <section className="flex">
-      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[410px] min-w-[350px] shadow-md ">
+      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[425px] min-w-[350px] shadow-md ">
         <DatePicker
           openToDate={initialDate}
           minDate={hidePastDates ? today : undefined}
@@ -106,7 +105,7 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
             increaseYear,
             decreaseYear,
           }) => (
-            <div className="flex justify-between m-auto py-4 w-full">
+            <div className="flex justify-between m-auto pb-2 pt-4 w-full">
               <ArrowSVG
                 className="h-6 w-6 cursor-pointer"
                 onClick={() =>

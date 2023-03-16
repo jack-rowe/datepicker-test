@@ -114,7 +114,7 @@ const DatePickerComponent: React.FunctionComponent<
   return (
     // other styles in styles.css file Path: src\styles.css
     <section className="flex">
-      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[410px] min-w-[350px] shadow-md ">
+      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[425px] min-w-[350px] shadow-md ">
         <DatePicker
           openToDate={initialDate}
           minDate={hidePastDates ? today : undefined}
@@ -131,7 +131,7 @@ const DatePickerComponent: React.FunctionComponent<
             prevMonthButtonDisabled,
             nextMonthButtonDisabled,
           }) => (
-            <div className="flex justify-between m-auto py-4 w-full">
+            <div className="flex justify-between m-auto pb-2 pt-4 w-full">
               <ArrowSVG
                 className="h-6 w-6 cursor-pointer"
                 onClick={() =>
@@ -261,7 +261,7 @@ const DatePickerComponent: React.FunctionComponent<
                                     selected ? "font-medium" : "font-normal"
                                   } block truncate`}
                                 >
-                                  {time}
+                                  {time.}
                                 </span>
                               </div>
 
