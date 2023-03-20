@@ -3,31 +3,36 @@ import { useState } from "react";
 
 import DatePicker from "react-datepicker";
 
-import ArrowSVG from "../ArrowSVG";
+import ArrowSVG from "../../ArrowSVG";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles/index.css";
-interface IDatePickerSingleProps {
+interface IDatePickerRangeProps {
   initialDate: Date;
   hidePastDates?: boolean;
   handleChange: (startDate: Date | null, endDate: Date | null) => void;
   startDateError?: string;
+  endDateError?: string;
 }
 
-const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
+const DatePickerRange: React.FunctionComponent<IDatePickerRangeProps> = ({
   initialDate,
   hidePastDates = false,
   handleChange,
-  startDateError
+  startDateError,
+  endDateError,
 }) => {
   const [startDate, setStartDate] = useState<Date | null>(null);
+  const [endDate, setEndDate] = useState<Date | null>(null);
   const [yearPickerOpen, setYearPickerOpen] = useState(false);
   const [monthPickerOpen, setMonthPickerOpen] = useState(false);
   const today = new Date();
 
-  const handleDateChange = (dates: Date) => {
-    // if the date is in the past and hidePastDates is true, set the date to today
-    if (hidePastDates && dates.getTime() < today.getTime()) {
+  const handleDateChange = (dates: (Date | null)[]) => {
+    const [start, end] = dates;
+    if (!start) return;
+    if (hidePastDates && start.getTime() < today.getTime()) {
       setStartDate(today);
+      setEndDate(end);
       setMonthPickerOpen(false);
       setYearPickerOpen(false);
       return;
@@ -44,17 +49,20 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
       setMonthPickerOpen(true);
       return;
     }
-    setStartDate(dates as Date);
+    setStartDate(start);
+    setEndDate(end);
     handleChange(null, null);
   };
 
   const handleTodayClick = () => {
     setStartDate(today);
+    setEndDate(null);
     setMonthPickerOpen(false);
     setYearPickerOpen(false);
   };
   const handleClearClick = () => {
     setStartDate(null);
+    setEndDate(null);
     setMonthPickerOpen(false);
     setYearPickerOpen(false);
     handleChange(null, null);
@@ -84,20 +92,33 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
     if (!startDate) {
       handleChange(null, null);
       return;
-    };
+    }
     //set start date time to 00:00:00
     startDate.setHours(0, 0, 0, 0);
-    const endDate = new Date(startDate);
     //set end date time to 23:59:59
+    if (!endDate) {
+      handleChange(startDate, null);
+      return;
+    }
     endDate.setHours(23, 59, 59, 999);
     handleChange(startDate, endDate);
-  }, [startDate]);
+  }, [startDate, endDate]);
 
   return (
     <section className="flex relative">
-            <span className={`absolute -top-6 ${startDateError ? "text-alertRed" : "" }`}>{startDateError ? "Choose a Date" : "" }</span>
+      <span
+        className={`absolute -top-6 ${
+          startDateError || endDateError ? "text-alertRed" : ""
+        }`}
+      >
+        {startDateError || endDateError ? "Choose a Date" : ""}
+      </span>
 
-      <div className={`flex flex-col justify-between h-[fit] min-h-[425px] min-w-[350px] shadow-md border-2 rounded-md ${startDateError ? "border-alertRed":""}`}>
+      <div
+        className={`flex flex-col justify-between h-[fit] min-h-[425px] min-w-[350px] shadow-md border-2 rounded-md ${
+          startDateError || endDateError ? "border-alertRed" : ""
+        }`}
+      >
         <DatePicker
           openToDate={initialDate}
           minDate={hidePastDates ? today : undefined}
@@ -106,6 +127,7 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
           startDate={startDate}
           selected={startDate}
           onChange={handleDateChange}
+          selectsRange
           inline
           useWeekdaysShort // use three letter weekday lables
           renderCustomHeader={({
@@ -165,4 +187,4 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
   );
 };
 
-export default DatePickerSingle;
+export default DatePickerRange;

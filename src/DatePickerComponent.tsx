@@ -8,7 +8,7 @@ import ArrowSVG from "./ArrowSVG";
 import ChevronSVG from "./ChevronSVG";
 import ClockSVG from "./ClockSVG";
 import "./styles.css";
-import { getTimes, formatDate } from "./utils";
+import { getTimes, formatDate } from "./DatePicker/utils";
 
 interface IDatePickerComponentProps {
   isRange?: boolean;

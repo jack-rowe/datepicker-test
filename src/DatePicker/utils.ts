@@ -31,8 +31,7 @@ function generateTimeList(from: Date, to: Date): Time[] {
 
 function setTimeToNextQuarterHour(date: Date) {
   date.setMinutes((Math.ceil(date.getMinutes() / 15) * 15) % 60);
-  if (date.getMinutes() === 0 && date.getHours() !== new Date().getHours()) {
-    // ad an extra hour if the time was rouned up to the next hour
+  if (date.getMinutes() === 0 && new Date().getMinutes() !== 0) {
     date.setHours(date.getHours() + 1);
   }
 }

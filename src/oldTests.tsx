@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import DatePickerSingle from "./DatePickerSingleForm/DatePickerSingle";
+import DatePickerSingle from "./DatePicker/DatePickerSingleForm/DatePickerSingle";
 import { fireEvent } from "@testing-library/dom";
 
 describe("Date Picker Component Rendering", () => {

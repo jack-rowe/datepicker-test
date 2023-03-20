@@ -1,15 +1,15 @@
 import { useField } from "formik";
 import * as React from "react";
-import DatePickerSingle from "./DatePickerSingle";
+import DatePickerRange from "./DatePickerRange";
 
-interface IInnerDatePickerSingleFormProps {
+interface IInnerDatePickerRangeFormProps {
   handleSubmit: () => void;
   initialDate: Date;
   hidePastDates: boolean;
 }
 
-const InnerDatePickerSingleForm: React.FunctionComponent<
-  IInnerDatePickerSingleFormProps
+const InnerDatePickerRangeForm: React.FunctionComponent<
+  IInnerDatePickerRangeFormProps
 > = (props) => {
   const [a, startDateMetaHelpers, startDateFieldHelpers] = useField("startDate");
   const [b, endDateMetaHelpers, endDateFieldHelpers] = useField("endDate");
@@ -22,7 +22,7 @@ const InnerDatePickerSingleForm: React.FunctionComponent<
         props.handleSubmit();
       }}
     >
-      <DatePickerSingle
+      <DatePickerRange
         handleChange={(startDate, endDate) => {
           startDateFieldHelpers.setValue(startDate);
           endDateFieldHelpers.setValue(endDate);
@@ -32,9 +32,10 @@ const InnerDatePickerSingleForm: React.FunctionComponent<
         initialDate={props.initialDate}
         hidePastDates={props.hidePastDates}
         startDateError={startDateMetaHelpers.error || ""}
+        endDateError={endDateMetaHelpers.error || ""}
       />
       <div className="w-full flex flex-col justify-center items-center h-24">
-        <button type="submit" className="bg-blue-500 text-white p-2">
+        <button type="submit" className="bg-primaryButton text-white p-2">
           Submit
         </button>
   
@@ -43,4 +44,4 @@ const InnerDatePickerSingleForm: React.FunctionComponent<
   );
 };
 
-export default InnerDatePickerSingleForm;
+export default InnerDatePickerRangeForm;

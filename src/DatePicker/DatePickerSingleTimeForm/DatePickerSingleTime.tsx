@@ -3,12 +3,12 @@ import { useState } from "react";
 
 import DatePicker from "react-datepicker";
 
-import ArrowSVG from "../ArrowSVG";
+import ArrowSVG from "../../ArrowSVG";
 import "react-datepicker/dist/react-datepicker.css";
 import "../styles/index.css";
 import { Listbox, Transition } from "@headlessui/react";
-import ClockSVG from "../ClockSVG";
-import ChevronSVG from "../ChevronSVG";
+import ClockSVG from "../../ClockSVG";
+import ChevronSVG from "../../ChevronSVG";
 import { formatDate, getTimes } from "../utils";
 import { Time } from "../types";
 
@@ -119,9 +119,13 @@ const DatePickerSingleTime: React.FunctionComponent<
 
   return (
     <section className="flex relative">
-      <span className="absolute -top-6 text-alertRed">{startTimeError && endTimeError ? "Choose a Date" : "" }</span>
+      <span className="absolute -top-6 text-alertRed">
+        {startTimeError && endTimeError ? "Choose a Date" : ""}
+      </span>
       <div
-        className={`flex flex-col justify-between h-[fit] min-h-[425px] min-w-[350px] shadow-md border-2 rounded-md ${startTimeError && endTimeError ? "border-alertRed" : "" }`}
+        className={`flex flex-col justify-between h-[fit] min-h-[425px] min-w-[350px] shadow-md border-2 rounded-md ${
+          startTimeError && endTimeError ? "border-alertRed" : ""
+        }`}
       >
         <DatePicker
           openToDate={initialDate}
