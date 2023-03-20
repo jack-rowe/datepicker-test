@@ -21,18 +21,15 @@ interface FormikProps {
 const DatePickerSingleForm = withFormik<OtherProps & FormikProps, FormValues>({
   mapPropsToValues: (props) => {
     return {
-        startDate: props.initialDate,
-        endDate: props.initialDate,
+        startDate: null,
+        endDate: null,
     };
   },
   validateOnChange: false,
   validate: (values) => {
     const errors: FormikErrors<FormValues> = {};
     if (!values.startDate) {
-      errors.startDate = "Date required";
-    }
-    if (!values.endDate) {
-      errors.endDate = "Date required";
+      errors.startDate = "Choose a date";
     }
     return errors;
   },

@@ -15,10 +15,9 @@ import { Time } from "../types";
 interface IDatePickerSingleTimeProps {
   initialDate: Date;
   hidePastDates?: boolean;
-  handleChange: (
-    startDate: Date | null,
-    endDate: Date | null,
-  ) => void;
+  handleChange: (startDate: Date | null, endDate: Date | null) => void;
+  startTimeError?: string;
+  endTimeError?: string;
 }
 
 const DatePickerSingleTime: React.FunctionComponent<
@@ -27,8 +26,10 @@ const DatePickerSingleTime: React.FunctionComponent<
   initialDate,
   hidePastDates = false,
   handleChange,
+  startTimeError,
+  endTimeError,
 }) => {
-  const [startDate, setStartDate] = useState<Date | null>(initialDate);
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const [startTime, setStartTime] = useState<Time | null>(null);
   const [endTime, setEndTime] = useState<Time | null>(null);
 
@@ -65,7 +66,9 @@ const DatePickerSingleTime: React.FunctionComponent<
     setStartDate(dates as Date);
     setEndTime(null);
     setStartTime(null);
+    handleChange(null, null);
   };
+
   const handleTodayClick = () => {
     setStartDate(today);
     setEndTime(null);
@@ -79,6 +82,7 @@ const DatePickerSingleTime: React.FunctionComponent<
     setStartTime(null);
     setMonthPickerOpen(false);
     setYearPickerOpen(false);
+    handleChange(null, null);
   };
   const handleLeftArrowClick = (
     decreaseMonth: () => void,
@@ -100,7 +104,7 @@ const DatePickerSingleTime: React.FunctionComponent<
       increaseMonth();
     }
   };
-  
+
   React.useEffect(() => {
     if (!startDate || !startTime || !endTime) {
       return;
@@ -110,16 +114,15 @@ const DatePickerSingleTime: React.FunctionComponent<
 
     startDate.setHours(startTime.hour, startTime.minute, 0, 0);
 
-
     handleChange(startDate, endDateCalculated);
   }, [startDate, startTime, endTime]);
 
   return (
-    // to go back to separate date/time pickers move " shadow-md border-2 rounded-md" to the div below
-    <section className="flex"> 
-    <div className="flex flex-col justify-between h-[fit] min-h-[425px] min-w-[350px] shadow-md border-2 rounded-md">
-     {/* <section className="flex shadow-md border-2 rounded-md"> 
-       <div className="flex flex-col justify-between  h-[fit] min-h-[425px] min-w-[350px]  "> */}
+    <section className="flex relative">
+      <span className="absolute -top-6 text-alertRed">{startTimeError && endTimeError ? "Choose a Date" : "" }</span>
+      <div
+        className={`flex flex-col justify-between h-[fit] min-h-[425px] min-w-[350px] shadow-md border-2 rounded-md ${startTimeError && endTimeError ? "border-alertRed" : "" }`}
+      >
         <DatePicker
           openToDate={initialDate}
           minDate={hidePastDates ? today : undefined}
@@ -168,14 +171,14 @@ const DatePickerSingleTime: React.FunctionComponent<
         <div className="w-full flex justify-around gap-4 mb-3">
           <button
             type="button"
-            className="grow bg-[#1A56DB] text-white rounded-md ml-4 py-2"
+            className="grow bg-primaryButton text-white rounded-md ml-4 py-2"
             onClick={() => handleTodayClick()}
           >
             Today
           </button>
           <button
             type="button"
-            className="grow border-2 rounded-md mr-4 py-2 disabled:bg-slate-200 disabled:text-slate-400"
+            className="grow border-2 rounded-md mr-4 py-2 border-secondaryBg disabled:bg-dtOffWhite disabled:text-disabled"
             onClick={() => handleClearClick()}
             disabled={!startDate}
           >
@@ -186,7 +189,7 @@ const DatePickerSingleTime: React.FunctionComponent<
 
       <div className="flex flex-col justify-start gap-4 pt-4 items-center w-[350px] px-8 relative">
         <div
-          className="text-2xl font-semibold mb-4 text-[#707070]"
+          className="text-2xl font-semibold mb-4 text-primaryText"
           data-testid="datepicker-date_display"
         >
           {`${startDate ? formatDate(startDate) : "Select a Date..."}`}
@@ -200,16 +203,29 @@ const DatePickerSingleTime: React.FunctionComponent<
         >
           {({ open }) => (
             <div>
-              <Listbox.Label className="block text-sm font-medium text-gray-700 w-[150px]">
-                Start Time
+              <Listbox.Label
+                className={`block text-sm font-medium text-gray-700 w-[150px] ${
+                  startTimeError ? "text-alertRed" : ""
+                }`}
+              >
+                {startTimeError ? startTimeError : "Start Time"}
               </Listbox.Label>
-              <div className="mt-1 relative w-[150px]">
-                <Listbox.Button className="relative w-full bg-white border-2 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-pointer disabled:cursor-default focus:outline-none focus:ring-1 focus:ring-[#1A56DB] focus:border-[#1A56DB] sm:text-sm flex items-center justify-start">
+              <div className="mt-1 relative w-[150px] ">
+                <Listbox.Button
+                  className={`relative w-full bg-white disabled:bg-dtOffWhite border-2 rounded-md shadow-sm 
+                                            pl-3 pr-10 py-2 text-left cursor-pointer disabled:cursor-default focus:outline-none
+                                            focus:ring-1 focus:ring-primarybutton focus:border-primarybutton sm:text-sm flex 
+                                            items-center justify-start ${
+                                              startTimeError
+                                                ? "border-alertRed"
+                                                : ""
+                                            }`}
+                >
                   <span className="flex items-center -ml-1 pr-2 pointer-events-none">
                     <ClockSVG className="scale-120" />
                   </span>
                   <span
-                    className={`block w-fit ${
+                    className={`block w-fit  ${
                       startTime ? "" : "text-gray-400"
                     }`}
                   >
@@ -217,7 +233,7 @@ const DatePickerSingleTime: React.FunctionComponent<
                   </span>
                   <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                     <ChevronSVG
-                      className={`h-5 w-5 text-gray-400 transition-all ease-in ${
+                      className={`h-5 w-5 text-gray-400 motion-safe:transition-all ease-in ${
                         open ? "" : "rotate-180"
                       }`}
                       aria-hidden="true"
@@ -228,22 +244,24 @@ const DatePickerSingleTime: React.FunctionComponent<
                 <Transition
                   show={open}
                   as={React.Fragment}
-                  leave="transition ease-in duration-100"
+                  leave="motion-safe:transition ease-in duration-100"
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
                   <Listbox.Options
                     static
-                    className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm custom-scrollbar"
+                    className={`absolute  z-10 mt-2 w-full border-2 bg-white shadow-lg max-h-60 rounded-md py-1 text-base overflow-auto focus:outline-none sm:text-sm custom-scrollbar `}
                   >
                     {getTimes(startDate, hidePastDates).map((time) => (
                       <Listbox.Option
                         key={time.timeString + "start"}
                         className={({ active }) =>
                           `${
-                            active ? "text-white bg-[#1A56DB]" : "text-gray-900"
+                            active
+                              ? "text-white bg-primaryButton"
+                              : "text-primaryText"
                           }  
-                              cursor-default select-none relative py-2 pl-3 pr-9`
+                              cursor-pointer select-none relative py-2 pl-3 pr-9 `
                         }
                         value={time}
                       >
@@ -262,9 +280,9 @@ const DatePickerSingleTime: React.FunctionComponent<
                             {selected ? (
                               <span
                                 className={`${
-                                  active ? "text-white" : "text-[#1A56DB]"
+                                  active ? "text-white" : "text-primaryButton"
                                 }
-                                    absolute inset-y-0 right-0 flex items-center pr-4`}
+                                     bg-disabledabsolute inset-y-0 right-0 flex items-center pr-4`}
                               ></span>
                             ) : null}
                           </>
@@ -287,11 +305,24 @@ const DatePickerSingleTime: React.FunctionComponent<
         >
           {({ open }) => (
             <div>
-              <Listbox.Label className="block text-sm font-medium text-gray-700 w-[150px]">
-                End Time
+              <Listbox.Label
+                className={`block text-sm font-medium text-gray-700 w-[150px] ${
+                  endTimeError ? "text-alertRed" : ""
+                }`}
+              >
+                {endTimeError ? endTimeError : "End Time"}
               </Listbox.Label>
-              <div className="mt-1 relative w-[150px]">
-                <Listbox.Button className="relative w-full bg-white border-2 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-pointer disabled:cursor-default focus:outline-none focus:ring-1 focus:ring-[#1A56DB] focus:border-[#1A56DB] sm:text-sm flex items-center justify-start">
+              <div className="mt-1 relative w-[150px] ">
+                <Listbox.Button
+                  className={`relative w-full bg-white disabled:bg-dtOffWhite border-2 rounded-md shadow-sm 
+                                            pl-3 pr-10 py-2 text-left cursor-pointer disabled:cursor-default focus:outline-none
+                                            focus:ring-1 focus:ring-primarybutton focus:border-primarybutton sm:text-sm flex 
+                                            items-center justify-start ${
+                                              endTimeError
+                                                ? "border-alertRed"
+                                                : ""
+                                            }`}
+                >
                   <span className="flex items-center -ml-1 pr-2 pointer-events-none">
                     <ClockSVG className="scale-120" />
                   </span>
@@ -302,7 +333,7 @@ const DatePickerSingleTime: React.FunctionComponent<
                   </span>
                   <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                     <ChevronSVG
-                      className={`h-5 w-5 text-gray-400 transition-all ease-in ${
+                      className={`h-5 w-5 text-gray-400 motion-safe:transition-all ease-in ${
                         open ? "" : "rotate-180"
                       }`}
                       aria-hidden="true"
@@ -313,7 +344,7 @@ const DatePickerSingleTime: React.FunctionComponent<
                 <Transition
                   show={open}
                   as={React.Fragment}
-                  leave="transition ease-in duration-100"
+                  leave="motion-safe:transition ease-in duration-100"
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
@@ -326,9 +357,11 @@ const DatePickerSingleTime: React.FunctionComponent<
                         key={time.timeString + "end"}
                         className={({ active }) =>
                           `${
-                            active ? "text-white bg-[#1A56DB]" : "text-gray-900"
+                            active
+                              ? "text-white bg-primaryButton"
+                              : "text-primaryText"
                           }  
-                              cursor-default select-none relative py-2 pl-3 pr-9`
+                              cursor-pointer select-none relative py-2 pl-3 pr-9`
                         }
                         value={time}
                       >
@@ -347,7 +380,7 @@ const DatePickerSingleTime: React.FunctionComponent<
                             {selected ? (
                               <span
                                 className={`${
-                                  active ? "text-white" : "text-[#1A56DB]"
+                                  active ? "text-white" : "text-primarybutton"
                                 }
                                     absolute inset-y-0 right-0 flex items-center pr-4`}
                               ></span>

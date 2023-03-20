@@ -9,15 +9,17 @@ import "../styles/index.css";
 interface IDatePickerSingleProps {
   initialDate: Date;
   hidePastDates?: boolean;
-  handleChange: (startDate: Date, endDate: Date) => void;
+  handleChange: (startDate: Date | null, endDate: Date | null) => void;
+  startDateError?: string;
 }
 
 const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
   initialDate,
   hidePastDates = false,
   handleChange,
+  startDateError
 }) => {
-  const [startDate, setStartDate] = useState<Date | null>(initialDate);
+  const [startDate, setStartDate] = useState<Date | null>(null);
   const [yearPickerOpen, setYearPickerOpen] = useState(false);
   const [monthPickerOpen, setMonthPickerOpen] = useState(false);
   const today = new Date();
@@ -43,7 +45,9 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
       return;
     }
     setStartDate(dates as Date);
+    handleChange(null, null);
   };
+
   const handleTodayClick = () => {
     setStartDate(today);
     setMonthPickerOpen(false);
@@ -53,7 +57,7 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
     setStartDate(null);
     setMonthPickerOpen(false);
     setYearPickerOpen(false);
-    
+    handleChange(null, null);
   };
   const handleLeftArrowClick = (
     decreaseMonth: () => void,
@@ -77,7 +81,10 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
   };
 
   React.useEffect(() => {
-    if (!startDate) return;
+    if (!startDate) {
+      handleChange(null, null);
+      return;
+    };
     //set start date time to 00:00:00
     startDate.setHours(0, 0, 0, 0);
     const endDate = new Date(startDate);
@@ -87,8 +94,10 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
   }, [startDate]);
 
   return (
-    <section className="flex">
-      <div className="flex flex-col justify-between h-[fit] min-h-[425px] min-w-[350px] shadow-md border-2 rounded-md">
+    <section className="flex relative">
+            <span className={`absolute -top-6 ${startDateError ? "text-alertRed" : "" }`}>{startDateError ? "Choose a Date" : "" }</span>
+
+      <div className={`flex flex-col justify-between h-[fit] min-h-[425px] min-w-[350px] shadow-md border-2 rounded-md ${startDateError ? "border-alertRed":""}`}>
         <DatePicker
           openToDate={initialDate}
           minDate={hidePastDates ? today : undefined}
@@ -144,7 +153,7 @@ const DatePickerSingle: React.FunctionComponent<IDatePickerSingleProps> = ({
           </button>
           <button
             type="button"
-            className="grow border-2 rounded-md mr-4 py-2 disabled:bg-slate-200 disabled:text-slate-400"
+            className="grow border-2 rounded-md mr-4 py-2 border-secondaryBg disabled:bg-dtOffWhite disabled:text-disabled"
             onClick={() => handleClearClick()}
             disabled={!startDate}
           >
