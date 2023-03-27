@@ -114,7 +114,7 @@ const DatePickerComponent: React.FunctionComponent<
   return (
     // other styles in styles.css file Path: src\styles.css
     <section className="flex">
-      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[425px] min-w-[350px] shadow-md ">
+      <div className="flex flex-col justify-between border-2 rounded-md w-1/2 h-[fit] min-h-[460px] min-w-[350px] shadow-md ">
         <DatePicker
           openToDate={initialDate}
           minDate={hidePastDates ? today : undefined}

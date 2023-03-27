@@ -115,7 +115,7 @@ const DatePickerRange: React.FunctionComponent<IDatePickerRangeProps> = ({
       </span>
 
       <div
-        className={`flex flex-col justify-between h-[fit] min-h-[425px] min-w-[350px] shadow-md border-2 rounded-md ${
+        className={`flex flex-col justify-between h-[fit] min-h-[460px] min-w-[350px] shadow-md border-2 rounded-md ${
           startDateError || endDateError ? "border-alertRed" : ""
         }`}
       >

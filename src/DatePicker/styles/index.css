@@ -28,7 +28,6 @@
   font-weight: 600;
   font-size: 16px;
   padding: 0.5rem;
-  margin: 1px;
   flex-grow: 1
 }
 .react-datepicker__day-names {
