@@ -24,13 +24,13 @@ function generateTimeList(from: Date, to: Date): Time[] {
       minute: from.getMinutes(),
       timeString: val,
     });
-    from.setMinutes(from.getMinutes() + 15);
+    from.setMinutes(from.getMinutes() + 30);
   }
   return timeList;
 }
 
-function setTimeToNextQuarterHour(date: Date) {
-  date.setMinutes((Math.ceil(date.getMinutes() / 15) * 15) % 60);
+function setTimeToNextHalfHour(date: Date) {
+  date.setMinutes((Math.ceil(date.getMinutes() / 30) * 30) % 60);
   if (date.getMinutes() === 0 && new Date().getMinutes() !== 0) {
     date.setHours(date.getHours() + 1);
   }
@@ -47,7 +47,7 @@ function getTimes(selectedDate: Date | null, hideDates: boolean): Time[] {
   dayStart.setHours(0, 0, 0, 0);
 
   if (isEqualDay(selectedDate, now)) {
-    setTimeToNextQuarterHour(nowRounded);
+    setTimeToNextHalfHour(nowRounded);
     if (!hideDates) {
       times = generateTimeList(dayStart, midnight);
     } else {
@@ -89,4 +89,4 @@ const formatDate = (date: Date) => {
     date.getFullYear()
   }`;
 };
-export { getTimes, addOrdinal, formatDate, isEqualDay, isGreaterThanDay, setTimeToNextQuarterHour, generateTimeList };
+export { getTimes, addOrdinal, formatDate, isEqualDay, isGreaterThanDay, setTimeToNextHalfHour, generateTimeList };
